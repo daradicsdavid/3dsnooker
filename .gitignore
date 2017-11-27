@@ -27,3 +27,4 @@ src/main/resources/
 src/test/
 target/maven-archiver/
 target/maven-status/
+/.idea/workspace.xml
