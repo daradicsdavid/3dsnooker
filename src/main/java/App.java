@@ -1,6 +1,5 @@
 import main.Game;
 import processing.core.PApplet;
-import shapes.Table;
 
 public class App extends PApplet {
 

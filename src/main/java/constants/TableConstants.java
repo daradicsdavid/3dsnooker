@@ -5,8 +5,11 @@ public class TableConstants {
     public static final float TABLE_HEIGHT = 200;
     public static final float TABLE_DEPTH = 25;
 
-    public static final float TABLE_EDGE_DEPTH = 40;
+    public static final float TABLE_HOLE_WIDTH = 20;
 
+
+
+    public static final float TABLE_EDGE_DEPTH = 40;
     public static final float TABLE_EDGE_WIDTH = 5;
 
 

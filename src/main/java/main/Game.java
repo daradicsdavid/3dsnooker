@@ -1,14 +1,14 @@
 package main;
 
 import processing.core.PApplet;
-import shapes.Table;
+import shapes.table.Table;
 
 public class Game extends PApplet {
 
     Table table;
 
     public void settings() {
-        size(1500, 1500, P3D);
+        size(800, 600, P3D);
 
         table = new Table(this);
     }

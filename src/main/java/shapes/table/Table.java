@@ -1,9 +1,11 @@
-package shapes;
+package shapes.table;
 
 
 import main.Game;
 import processing.core.PConstants;
+import processing.core.PImage;
 import processing.core.PShape;
+import shapes.Shape;
 
 import static constants.TableConstants.*;
 import static processing.core.PApplet.cos;
@@ -16,8 +18,11 @@ public class Table extends Shape {
 
     float i = 0;
 
+    private final TableHoles tableHoles;
+
     public Table(Game game) {
         super(game);
+        tableHoles = new TableHoles(game);
     }
 
     public void draw() {
@@ -36,48 +41,52 @@ public class Table extends Shape {
 
         drawTableLeg(TABLE_LEG_RADIUS, TABLE_LEG_HEIGHT, TABLE_HEIGHT, 0);
         drawTableLeg(TABLE_LEG_RADIUS, TABLE_LEG_HEIGHT, TABLE_HEIGHT, TABLE_WIDTH);
+
+        tableHoles.draw();
+
         game.popMatrix();
 
 
     }
+
 
     void drawTableLeg(float r, float h, float xOffset, float yOffset) {
         float sides = 360;
         float angle = 360 / sides;
         PShape upperShape = game.createShape();
         upperShape.beginShape();
+        upperShape.fill(139, 90, 43);
+        upperShape.noStroke();
         for (int i = 0; i < sides; i++) {
             float x = cos(radians(i * angle)) * r;
             float y = sin(radians(i * angle)) * r;
-            upperShape.vertex(x+xOffset, y+yOffset, 0);
+            upperShape.vertex(x + xOffset, y + yOffset, 0);
         }
-        upperShape.fill(255);
-        upperShape.noStroke();
         upperShape.endShape(CLOSE);
         game.shape(upperShape);
 
         PShape lowerShape = game.createShape();
         lowerShape.beginShape();
+        lowerShape.fill(139, 90, 43);
+        lowerShape.noStroke();
         for (int i = 0; i < sides; i++) {
             float x = cos(radians(i * angle)) * r;
             float y = sin(radians(i * angle)) * r;
-            lowerShape.vertex(x+xOffset, y+yOffset, -h);
+            lowerShape.vertex(x + xOffset, y + yOffset, -h);
         }
-        lowerShape.fill(255);
-        lowerShape.noStroke();
         lowerShape.endShape(CLOSE);
         game.shape(lowerShape);
 
         PShape body = game.createShape();
         body.beginShape(TRIANGLE_STRIP);
+        body.fill(139, 90, 43);
+        body.noStroke();
         for (int i = 0; i < sides + 1; i++) {
             float x = cos(radians(i * angle)) * r;
             float y = sin(radians(i * angle)) * r;
-            body.vertex(x+xOffset, y+yOffset, 0);
-            body.vertex(x+xOffset, y+yOffset, -h);
+            body.vertex(x + xOffset, y + yOffset, 0);
+            body.vertex(x + xOffset, y + yOffset, -h);
         }
-        body.fill(255);
-        body.noStroke();
         body.endShape(CLOSE);
         game.shape(body);
     }
@@ -85,7 +94,8 @@ public class Table extends Shape {
     private PShape createLowerEdge() {
         PShape shape = game.createShape();
         shape.beginShape(PConstants.QUADS);
-
+        shape.fill(139, 90, 43);
+        shape.noStroke();
         // +Z "front" face
         shape.vertex(-TABLE_EDGE_WIDTH, TABLE_WIDTH + TABLE_EDGE_WIDTH, TABLE_EDGE_DEPTH);
         shape.vertex(TABLE_HEIGHT + TABLE_EDGE_WIDTH, TABLE_WIDTH + TABLE_EDGE_WIDTH, TABLE_EDGE_DEPTH);
@@ -130,7 +140,8 @@ public class Table extends Shape {
     private PShape createUpperEdge() {
         PShape shape = game.createShape();
         shape.beginShape(PConstants.QUADS);
-
+        shape.fill(139, 90, 43);
+        shape.noStroke();
         // +Z "front" face
         shape.vertex(-TABLE_EDGE_WIDTH, -TABLE_EDGE_WIDTH, TABLE_EDGE_DEPTH);
         shape.vertex(TABLE_HEIGHT + TABLE_EDGE_WIDTH, -TABLE_EDGE_WIDTH, TABLE_EDGE_DEPTH);
@@ -175,7 +186,8 @@ public class Table extends Shape {
     private PShape createLeftEdge() {
         PShape shape = game.createShape();
         shape.beginShape(PConstants.QUADS);
-
+        shape.fill(139, 90, 43);
+        shape.noStroke();
         // +Z "front" face
         shape.vertex(-TABLE_EDGE_WIDTH, 0, TABLE_EDGE_DEPTH);
         shape.vertex(0, 0, 0);
@@ -220,7 +232,8 @@ public class Table extends Shape {
     private PShape createRightEdge() {
         PShape shape = game.createShape();
         shape.beginShape(PConstants.QUADS);
-
+        shape.fill(139, 90, 43);
+        shape.noStroke();
         // +Z "front" face
         shape.vertex(TABLE_HEIGHT, 0, TABLE_EDGE_DEPTH);
         shape.vertex(TABLE_HEIGHT + TABLE_EDGE_WIDTH, 0, TABLE_EDGE_DEPTH);
@@ -265,7 +278,8 @@ public class Table extends Shape {
     private PShape createTableTab() {
         PShape shape = game.createShape();
         shape.beginShape(PConstants.QUADS);
-
+        shape.fill(10, 108, 3);
+        shape.noStroke();
         // +Z "front" face
         shape.vertex(0, 0, TABLE_DEPTH);
         shape.vertex(TABLE_HEIGHT, 0, TABLE_DEPTH);
