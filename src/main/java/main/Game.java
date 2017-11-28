@@ -1,19 +1,22 @@
-import processing.core.PApplet;
+package main;
 
-public class Application extends PApplet {
-    public static void main(String[] args) {
-        String[] processingArgs = {"Application"};
-        Application application = new Application();
-        PApplet.runSketch(processingArgs, application);
-    }
+import processing.core.PApplet;
+import shapes.Table;
+
+public class Game extends PApplet {
+
+    Table table;
 
     public void settings() {
         size(1500, 1500, P3D);
+
+        table = new Table(this);
     }
 
     public void draw() {
-        translate(400,400,  0);
-        drawCylinder(5, 50, 50);
+        background(0);
+        table.draw();
+
     }
 
     void drawCylinder(int sides, float r, float h) {
@@ -46,3 +49,4 @@ public class Application extends PApplet {
         endShape(CLOSE);
     }
 }
+
