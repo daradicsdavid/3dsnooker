@@ -49,7 +49,7 @@ public class TabCollisionDetector {
     }
 
     private PVector getNextBallCenter() {
-        return ball.getCenterPoint().copy().add(ball.getNextMovement());
+        return ball.getCenterPoint().copy().add(ball.getDirection());
     }
 
 }
