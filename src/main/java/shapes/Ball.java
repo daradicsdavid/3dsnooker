@@ -49,7 +49,6 @@ public class Ball extends Shape {
         } else {
             speed = 20;
         }
-
         draw();
     }
 
@@ -81,21 +80,10 @@ public class Ball extends Shape {
     }
 
 
-    public void setCenterPoint(PVector centerPoint) {
-        this.centerPoint = centerPoint;
-    }
-
     public PVector getCenterPoint() {
         return centerPoint;
     }
 
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
 
     public void init(PVector centerPoint) {
         direction = tab.getUpperRightCoordinate().sub(tab.getUpperLeftCoordinate());

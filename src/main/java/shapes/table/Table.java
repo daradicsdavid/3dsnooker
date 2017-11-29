@@ -22,7 +22,9 @@ public class Table extends Shape {
     private final UpperEdge upperEdge;
     private final LowerEdge lowerEdge;
     private final TableLegs tableLegs;
+
     private final Ball whiteBall;
+    private final Ball blackBall;
 
 
     public Table(Game game) {
@@ -36,6 +38,7 @@ public class Table extends Shape {
         tableLegs = new TableLegs(game);
 
         whiteBall = new Ball(game, tableTab, 255, 255, 255);
+        blackBall = new Ball(game, tableTab, 0, 0, 0);
     }
 
     public void draw() {
@@ -66,10 +69,12 @@ public class Table extends Shape {
 
     private void moveBalls() {
         whiteBall.move();
+        blackBall.move();
     }
 
     private void placeBalls() {
         whiteBall.init(new PVector((tableTab.getUpperLeftCoordinate().x + tableTab.getLowerRightCoordinate().x) / 2, (tableTab.getUpperLeftCoordinate().y + tableTab.getLowerRightCoordinate().y) / 2, tableTab.getUpperLeftCoordinate().z + BALL_RADIUS));
+        blackBall.init(new PVector((tableTab.getUpperLeftCoordinate().x + tableTab.getLowerRightCoordinate().x) / 3, (tableTab.getUpperLeftCoordinate().y + tableTab.getLowerRightCoordinate().y) / 3, tableTab.getUpperLeftCoordinate().z + BALL_RADIUS));
 
 
 
