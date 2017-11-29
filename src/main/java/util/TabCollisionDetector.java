@@ -5,11 +5,7 @@ import shapes.Ball;
 import shapes.table.TableTab;
 
 
-import static constants.TableConstants.BALL_RADIUS;
-import static constants.TableConstants.COLLISION_THRESHOLD;
-import static processing.core.PApplet.abs;
-import static processing.core.PApplet.reverse;
-import static processing.core.PApplet.sqrt;
+import static constants.TableConstants.*;
 import static util.DetectedEdge.*;
 
 public class TabCollisionDetector {
@@ -37,40 +33,23 @@ public class TabCollisionDetector {
     }
 
     private boolean checkRightEdge() {
-        return calculateDistance(tab.getUpperRightCoordinate(), tab.getLowerRightCoordinate()) < COLLISION_THRESHOLD;
+        return getNextBallCenter().x + BALL_RADIUS >= TABLE_HEIGHT;
     }
 
     private boolean checkLeftEdge() {
-        return calculateDistance(tab.getUpperLeftCoordinate(), tab.getLowerLeftCoordinate()) < COLLISION_THRESHOLD;
+        return getNextBallCenter().x - BALL_RADIUS <= 0;
     }
 
     private boolean checkLowerEdge() {
-        return calculateDistance(tab.getLowerLeftCoordinate(), tab.getLowerRightCoordinate()) < COLLISION_THRESHOLD;
+        return getNextBallCenter().y + BALL_RADIUS >= TABLE_WIDTH;
     }
 
     private boolean checkUpperEdge() {
-        return calculateDistance(tab.getUpperLeftCoordinate(), tab.getUpperRightCoordinate()) < COLLISION_THRESHOLD;
+        return getNextBallCenter().y - BALL_RADIUS <= 0;
     }
 
-    private float calculateDistance(PVector coordinate1, PVector coordinate2) {
-        float x0 = ball.getCenterPoint().x;
-        float y0 = ball.getCenterPoint().y;
-
-        float x1 = coordinate1.x;
-        float y1 = coordinate1.y;
-
-        float x2 = coordinate2.x;
-        float y2 = coordinate2.y;
-
-        float nominator = abs((y2 - y1) * x0 - (x2 - x1) * y0 + x2 * y1 - y2 * x1);
-
-        float denominator = sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
-
-        float distance = nominator / denominator;
-
-        distance -= BALL_RADIUS;
-
-        return distance;
+    private PVector getNextBallCenter() {
+        return ball.getCenterPoint().copy().add(ball.getNextMovement());
     }
 
 }

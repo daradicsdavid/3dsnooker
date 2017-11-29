@@ -7,6 +7,7 @@ import util.DetectedEdge;
 import util.TabCollisionDetector;
 
 import static constants.TableConstants.BALL_RADIUS;
+import static constants.TableConstants.SPEED_THRESHOLD;
 
 public class Ball extends Shape {
 
@@ -40,22 +41,27 @@ public class Ball extends Shape {
 
     public void move() {
         if (speed > 0) {
-            //TODO megnézni ez jó sebesség-e
-            PVector direction = this.direction.copy().mult(speed);
-            checkIfCollisionHappenedWithTabEdge();
-            centerPoint.add(direction);
-            speed = speed / 100 * 98;
+            checkIfCollisionHappensWithTabEdge();
 
+            centerPoint.add(getNextMovement());
+            decreaseSpeedBy(2);
+
+        } else {
+            speed = 20;
         }
 
         draw();
     }
 
-    private void checkIfCollisionHappenedWithTabEdge() {
+    public PVector getNextMovement() {
+        return this.direction.copy().mult(speed);
+    }
+
+    private void checkIfCollisionHappensWithTabEdge() {
         TabCollisionDetector tabCollisionDetector = new TabCollisionDetector(tab, this);
         DetectedEdge detectedEdge = tabCollisionDetector.detectCollision();
         if (detectedEdge != DetectedEdge.NONE) {
-            speed = speed / 100 * 97;
+            decreaseSpeedBy(3);
             invertDirection();
         }
         switch (detectedEdge) {
@@ -92,9 +98,19 @@ public class Ball extends Shape {
     }
 
     public void init(PVector centerPoint) {
-        direction = tab.getUpperRightCoordinate().sub(tab.getLowerRightCoordinate()).normalize();
+        direction = tab.getUpperRightCoordinate().sub(tab.getUpperLeftCoordinate());
+        direction.x -= 40;
+        direction.y -= 40;
+        direction.normalize();
         this.centerPoint = centerPoint;
 
         draw();
+    }
+
+    private void decreaseSpeedBy(int percentage) {
+        speed = speed / 100 * (100 - percentage);
+        if (speed < SPEED_THRESHOLD) {
+            speed = 0;
+        }
     }
 }

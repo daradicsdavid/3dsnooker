@@ -7,10 +7,14 @@ public class Game extends PApplet {
 
     Table table;
 
+    public void setup() {
+
+        frameRate(30);
+        table = new Table(this);
+    }
+
     public void settings() {
         size(800, 600, P3D);
-
-        table = new Table(this);
     }
 
     public void draw() {

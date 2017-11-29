@@ -17,7 +17,8 @@ public class TableConstants {
     public static final float BALL_RADIUS = TABLE_HOLE_WIDTH / 4;
 
 
-    public static final float COLLISION_THRESHOLD = 5;
+    public static final float COLLISION_THRESHOLD = 2;
+    public static final float SPEED_THRESHOLD = 1;
 
 
 }
