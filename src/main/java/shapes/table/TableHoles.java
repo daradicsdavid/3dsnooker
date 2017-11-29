@@ -23,9 +23,7 @@ public class TableHoles extends Shape {
         drawUpperRightHole();
         drawMiddleRightHole();
         drawLowerRightHole();
-
-        drawUpperMiddleHole();
-        drawLowerMiddleHole();
+        
     }
 
     private void drawUpperLeftHole() {
@@ -106,29 +104,4 @@ public class TableHoles extends Shape {
         game.shape(upperLeftHole);
     }
 
-    private void drawUpperMiddleHole() {
-        PShape upperLeftHole = game.createShape();
-        upperLeftHole.beginShape();
-        upperLeftHole.texture(holeTexture);
-
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 - TABLE_HOLE_WIDTH / 2, 0, TABLE_DEPTH, 0, 0);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 + TABLE_HOLE_WIDTH / 2, 0, TABLE_DEPTH, 0, holeTexture.width);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 + TABLE_HOLE_WIDTH / 2, TABLE_HOLE_WIDTH, TABLE_DEPTH, holeTexture.height, holeTexture.width);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 - TABLE_HOLE_WIDTH / 2, TABLE_HOLE_WIDTH, TABLE_DEPTH, holeTexture.height, 0);
-        upperLeftHole.endShape();
-        game.shape(upperLeftHole);
-    }
-
-    private void drawLowerMiddleHole() {
-        PShape upperLeftHole = game.createShape();
-        upperLeftHole.beginShape();
-        upperLeftHole.texture(holeTexture);
-
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 - TABLE_HOLE_WIDTH / 2, TABLE_WIDTH - TABLE_HOLE_WIDTH, TABLE_DEPTH, 0, 0);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 + TABLE_HOLE_WIDTH / 2, TABLE_WIDTH - TABLE_HOLE_WIDTH, TABLE_DEPTH, 0, holeTexture.width);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 + TABLE_HOLE_WIDTH / 2, TABLE_WIDTH, TABLE_DEPTH, holeTexture.height, holeTexture.width);
-        upperLeftHole.vertex(TABLE_HEIGHT / 2 - TABLE_HOLE_WIDTH / 2, TABLE_WIDTH, TABLE_DEPTH, holeTexture.height, 0);
-        upperLeftHole.endShape();
-        game.shape(upperLeftHole);
-    }
 }

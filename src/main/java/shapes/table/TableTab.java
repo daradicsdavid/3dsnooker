@@ -76,18 +76,18 @@ public class TableTab extends Shape {
     }
 
     public PVector getUpperLeftCoordinate() {
-        return upperLeftCoordinate;
+        return upperLeftCoordinate.copy();
     }
 
     public PVector getUpperRightCoordinate() {
-        return upperRightCoordinate;
+        return upperRightCoordinate.copy();
     }
 
     public PVector getLowerRightCoordinate() {
-        return lowerRightCoordinate;
+        return lowerRightCoordinate.copy();
     }
 
     public PVector getLowerLeftCoordinate() {
-        return lowerLeftCoordinate;
+        return lowerLeftCoordinate.copy();
     }
 }
