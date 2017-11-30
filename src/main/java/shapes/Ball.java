@@ -7,6 +7,7 @@ import util.CircleCollisionDetector;
 import util.DetectedEdge;
 import util.TabCollisionDetector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -20,6 +21,7 @@ public class Ball extends Shape {
     PVector centerPoint;
     float speed = 20;
     float speedForTurn;
+    List<Ball> alreadyManagedCollisionWith;
     PVector direction;
     private float r;
     private float g;
@@ -49,7 +51,7 @@ public class Ball extends Shape {
 
     private void checkIfCollidingWithOtherBall(List<Ball> balls) {
         for (Ball ball : balls) {
-            if (!ball.equals(this) && isColliding(ball, this)) {
+            if (!ball.equals(this) && isColliding(ball, this) && !alreadyManagedCollisionWith.contains(ball)) {
                 manageColliding(ball);
             }
         }
@@ -64,10 +66,13 @@ public class Ball extends Shape {
 
         float optimizedP = (float) ((2.0 * (a1 - a2)) / 2);
 
-        direction.sub(distance.mult(optimizedP)).normalize();
-        ball.direction.add(distance.mult(optimizedP)).normalize();
+        distance.mult(optimizedP);
 
-        centerPoint.add(direction);
+        direction.sub(distance).normalize();
+        ball.direction.add(distance).normalize();
+
+        alreadyManagedCollisionWith.add(ball);
+        ball.alreadyManagedCollisionWith.add(this);
     }
 
     private void checkIfCollidingWithTabEdge() {
@@ -128,6 +133,7 @@ public class Ball extends Shape {
 
     public void initBallForMoving() {
         speedForTurn = speed;
+        alreadyManagedCollisionWith = new ArrayList<Ball>();
     }
 
     public boolean isStillMoving() {

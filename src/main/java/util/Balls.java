@@ -20,6 +20,8 @@ public class Balls {
 
     private final Ball whiteBall;
     private final Ball blackBall;
+    private final Ball blueBall;
+    private final Ball brownBall;
 
     private final List<Ball> balls = new ArrayList<Ball>();
 
@@ -31,9 +33,13 @@ public class Balls {
 
         whiteBall = new Ball(game, tab, 255, 255, 255);
         blackBall = new Ball(game, tab, 0, 0, 0);
+        blueBall = new Ball(game, tab, 33, 171, 205);
+        brownBall = new Ball(game, tab, 73, 70, 65);
 
         balls.add(whiteBall);
         balls.add(blackBall);
+        balls.add(blueBall);
+        balls.add(brownBall);
     }
 
     public void moveBalls() {
@@ -67,10 +73,29 @@ public class Balls {
     }
 
     public void placeBalls() {
-        PVector whiteBallPoint = new PVector(TABLE_HEIGHT / 2, 1 + BALL_RADIUS, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
-        PVector blackBallPoint = new PVector(TABLE_HEIGHT / 2, TABLE_WIDTH - BALL_RADIUS - 1, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        initializeWhiteBall();
+        initializeBlackBall();
+        initializeBlueBall();
+        initializeBall(brownBall);
+    }
 
-        whiteBall.init(whiteBallPoint, tab.getUpperRightCoordinate().sub(tab.getLowerRightCoordinate()));
-        blackBall.init(blackBallPoint, tab.getLowerRightCoordinate().sub(tab.getUpperRightCoordinate()));
+    private void initializeBlueBall() {
+        initializeBall(blueBall);
+    }
+
+    private void initializeBlackBall() {
+        initializeBall(blackBall);
+    }
+
+    private void initializeWhiteBall() {
+        initializeBall(whiteBall);
+    }
+
+    private void initializeBall(Ball ball) {
+        PVector initialPoint = new PVector(TABLE_HEIGHT / game.random(10), 1 + game.random(TABLE_WIDTH - 1), tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        PVector initialDirection = tab.getUpperRightCoordinate().sub(tab.getLowerRightCoordinate());
+        initialDirection.x += game.random(100);
+        initialDirection.y += game.random(100);
+        ball.init(initialPoint, initialDirection);
     }
 }
