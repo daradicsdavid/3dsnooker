@@ -3,16 +3,15 @@ package shapes;
 import main.Game;
 import processing.core.PVector;
 import shapes.table.TableTab;
-import util.CircleCollisionDetector;
 import util.DetectedEdge;
 import util.TabCollisionDetector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import static constants.TableConstants.BALL_RADIUS;
 import static constants.TableConstants.SPEED_THRESHOLD;
+import static processing.core.PApplet.sqrt;
 import static util.CircleCollisionDetector.isColliding;
 
 public class Ball extends Shape {
@@ -61,18 +60,40 @@ public class Ball extends Shape {
         PVector distance = new PVector(centerPoint.x - ball.centerPoint.x, centerPoint.y - ball.centerPoint.y);
         distance.normalize();
 
-        float a1 = direction.dot(distance);
-        float a2 = ball.direction.dot(distance);
+        float a1 = getSpeedVector().dot(distance);
+        float a2 = ball.getSpeedVector().dot(distance);
 
         float optimizedP = (float) ((2.0 * (a1 - a2)) / 2);
 
         distance.mult(optimizedP);
 
-        direction.sub(distance).normalize();
-        ball.direction.add(distance).normalize();
+
+        addNewTrajectoryVectorToDirection(distance.copy().mult(-1));
+
+        ball.addNewTrajectoryVectorToDirection(distance);
+
+        decreaseSpeedBy(2);
+        ball.decreaseSpeedBy(2);
 
         alreadyManagedCollisionWith.add(ball);
         ball.alreadyManagedCollisionWith.add(this);
+
+
+    }
+
+    private void addNewTrajectoryVectorToDirection(PVector distance) {
+        direction.add(distance);
+        speed = getLength(direction);
+        speedForTurn = getLength(direction);
+        direction.normalize();
+    }
+
+    private float getLength(PVector direction) {
+        return sqrt(direction.x * direction.x + direction.y * direction.y);
+    }
+
+    private PVector getSpeedVector() {
+        return direction.copy().mult(speed);
     }
 
     private void checkIfCollidingWithTabEdge() {

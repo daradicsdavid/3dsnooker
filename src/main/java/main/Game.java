@@ -9,7 +9,7 @@ public class Game extends PApplet {
 
     public void setup() {
 
-        frameRate(4);
+        frameRate(24);
         table = new Table(this);
     }
 
