@@ -4,6 +4,7 @@ package shapes.table;
 import main.Game;
 import processing.core.PVector;
 import shapes.Ball;
+import shapes.CueStick;
 import shapes.Shape;
 import util.Balls;
 
@@ -23,6 +24,7 @@ public class Table extends Shape {
     private final UpperEdge upperEdge;
     private final LowerEdge lowerEdge;
     private final TableLegs tableLegs;
+    private final CueStick cueStick;
 
 
     private final Balls balls;
@@ -37,11 +39,9 @@ public class Table extends Shape {
         upperEdge = new UpperEdge(game);
         lowerEdge = new LowerEdge(game);
         tableLegs = new TableLegs(game);
+        balls = new Balls(game, this);
 
-
-
-
-        balls=new Balls(game,this);
+        cueStick = new CueStick(game, balls.getWhiteBall());
     }
 
     public void draw() {
@@ -64,6 +64,7 @@ public class Table extends Shape {
             balls.placeBalls();
         }
 
+        cueStick.draw();
 
         game.popMatrix();
 

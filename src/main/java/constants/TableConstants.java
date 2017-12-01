@@ -21,4 +21,9 @@ public class TableConstants {
     public static final float SPEED_THRESHOLD = 1;
 
 
+    public static final float CUE_STICK_LENGTH = 200;
+    public static final float CUE_STICK_TIP_RADIUS = 2;
+    public static final float CUE_STICK_BUMBER_RADIUS = 3;
+
+
 }

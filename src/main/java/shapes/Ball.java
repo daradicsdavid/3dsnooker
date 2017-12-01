@@ -18,7 +18,7 @@ public class Ball extends Shape {
 
     private final TableTab tab;
     PVector centerPoint;
-    float speed = 20;
+    float speed = 0;
     float speedForTurn;
     List<Ball> alreadyManagedCollisionWith;
     PVector direction;
@@ -136,8 +136,8 @@ public class Ball extends Shape {
     }
 
 
-    public void init(PVector centerPoint, PVector initialDirection) {
-        direction = initialDirection;
+    public void init(PVector centerPoint) {
+        direction = new PVector(0, 0);
         direction.normalize();
         this.centerPoint = centerPoint;
 
