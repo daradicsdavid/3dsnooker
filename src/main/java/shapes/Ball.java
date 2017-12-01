@@ -141,7 +141,6 @@ public class Ball extends Shape {
         direction.normalize();
         this.centerPoint = centerPoint;
 
-        draw();
     }
 
     public void decreaseSpeedBy(int percentage) {
@@ -157,7 +156,17 @@ public class Ball extends Shape {
         alreadyManagedCollisionWith = new ArrayList<Ball>();
     }
 
+    public void initBallForMoving(float speed, PVector direction) {
+        this.direction = direction;
+        this.speed = speed;
+        initBallForMoving();
+    }
+
     public boolean isStillMoving() {
+        return speed != 0;
+    }
+
+    public boolean isStillMovingInTurn() {
         return speedForTurn != 0;
     }
 

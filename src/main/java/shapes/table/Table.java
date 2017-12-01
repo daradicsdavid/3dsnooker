@@ -58,14 +58,18 @@ public class Table extends Shape {
         tableLegs.draw();
 
         if (gameStarted) {
-            balls.moveBalls();
+            if (balls.anyBallStillMoving()) {
+                balls.moveBalls();
+            } else {
+                cueStick.draw();
+            }
         } else {
             gameStarted = true;
             balls.placeBalls();
+            cueStick.init();
         }
 
-        cueStick.draw();
-
+        balls.drawBalls();
         game.popMatrix();
 
 

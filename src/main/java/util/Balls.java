@@ -37,7 +37,7 @@ public class Balls {
         for (Ball ball : balls) {
             ball.initBallForMoving();
         }
-        while (anyBallStillMoving()) {
+        while (anyBallStillMovingInTurn()) {
             for (Ball ball : balls) {
                 ball.checkCollisions(balls);
             }
@@ -47,11 +47,19 @@ public class Balls {
         }
         for (Ball ball : balls) {
             ball.decreaseSpeedBy(2);
-            ball.draw();
         }
     }
 
-    private boolean anyBallStillMoving() {
+    public boolean anyBallStillMovingInTurn() {
+        for (Ball ball : balls) {
+            if (ball.isStillMovingInTurn()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean anyBallStillMoving() {
         for (Ball ball : balls) {
             if (ball.isStillMoving()) {
                 return true;
@@ -73,5 +81,11 @@ public class Balls {
 
     public Ball getWhiteBall() {
         return whiteBall;
+    }
+
+    public void drawBalls() {
+        for (Ball ball : balls) {
+            ball.draw();
+        }
     }
 }
