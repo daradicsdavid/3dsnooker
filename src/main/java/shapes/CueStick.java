@@ -59,8 +59,8 @@ public class CueStick extends Shape {
             distanceFromBallInMovement += distanceFromBall / 16;
         } else {
             backWardMovementDone = true;
-            if (distanceFromBallInMovement > distanceFromBall / 6) {
-                distanceFromBallInMovement -= distanceFromBall / 6;
+            if (distanceFromBallInMovement > distanceFromBall / 3) {
+                distanceFromBallInMovement -= distanceFromBall / 3;
             } else {
                 inMovement = false;
                 startWhiteBall();

@@ -21,6 +21,7 @@ public class Ball extends Shape {
     float speed = 0;
     float speedForTurn;
     List<Ball> alreadyManagedCollisionWith;
+    List<PVector> collisionTrajectoriesForTurn;
     PVector direction;
     private float r;
     private float g;
@@ -48,6 +49,28 @@ public class Ball extends Shape {
         checkIfCollidingWithOtherBall(balls);
     }
 
+    public void calculateNewTrajectoryBasedOnCollisions() {
+        if (collisionTrajectoriesForTurn.size() != 0) {
+            calculateNewTrajectory();
+        }
+    }
+
+    private void calculateNewTrajectory() {
+        float averageX = 0;
+        float averageY = 0;
+        int numberOfTrajectoryVectors = collisionTrajectoriesForTurn.size();
+        for (PVector trajectory : collisionTrajectoriesForTurn) {
+            averageX += trajectory.x;
+            averageY += trajectory.y;
+        }
+        PVector newTrajectory = new PVector(averageX / numberOfTrajectoryVectors, averageY / numberOfTrajectoryVectors);
+        speed = getLength(newTrajectory);
+        speedForTurn = speed;
+        direction = newTrajectory.normalize();
+        collisionTrajectoriesForTurn.clear();
+        alreadyManagedCollisionWith.clear();
+    }
+
     private void checkIfCollidingWithOtherBall(List<Ball> balls) {
         for (Ball ball : balls) {
             if (!ball.equals(this) && isColliding(ball, this) && !alreadyManagedCollisionWith.contains(ball)) {
@@ -57,6 +80,9 @@ public class Ball extends Shape {
     }
 
     private void manageColliding(Ball ball) {
+        decreaseSpeedBy(2);
+        ball.decreaseSpeedBy(2);
+
         PVector distance = new PVector(centerPoint.x - ball.centerPoint.x, centerPoint.y - ball.centerPoint.y);
         distance.normalize();
 
@@ -67,25 +93,17 @@ public class Ball extends Shape {
 
         distance.mult(optimizedP);
 
-
         addNewTrajectoryVectorToDirection(distance.copy().mult(-1));
 
         ball.addNewTrajectoryVectorToDirection(distance);
 
-        decreaseSpeedBy(2);
-        ball.decreaseSpeedBy(2);
-
         alreadyManagedCollisionWith.add(ball);
         ball.alreadyManagedCollisionWith.add(this);
-
-
     }
 
     private void addNewTrajectoryVectorToDirection(PVector distance) {
-        direction.add(distance);
-        speed = getLength(direction);
-        speedForTurn = getLength(direction);
-        direction.normalize();
+        PVector collisionTrajectoryVector = direction.copy().add(distance);
+        collisionTrajectoriesForTurn.add(collisionTrajectoryVector);
     }
 
     private float getLength(PVector direction) {
@@ -101,17 +119,20 @@ public class Ball extends Shape {
         DetectedEdge detectedEdge = tabCollisionDetector.detectCollision();
         if (detectedEdge != DetectedEdge.NONE) {
             decreaseSpeedBy(3);
-            invertDirection();
+            PVector collisionTrajectoryVector = direction.copy().mult(speed);
+            collisionTrajectoryVector.mult(-1);
+            switch (detectedEdge) {
+                case UPPER_EDGE:
+                case LOWER_EDGE:
+                    collisionTrajectoryVector.x *= -1;
+                    break;
+                case LEFT_EDGE:
+                case RIGHT_EDGE:
+                    collisionTrajectoryVector.y *= -1;
+            }
+            collisionTrajectoriesForTurn.add(collisionTrajectoryVector);
         }
-        switch (detectedEdge) {
-            case UPPER_EDGE:
-            case LOWER_EDGE:
-                direction.x *= -1;
-                break;
-            case LEFT_EDGE:
-            case RIGHT_EDGE:
-                direction.y *= -1;
-        }
+
     }
 
     public void move() {
@@ -122,12 +143,7 @@ public class Ball extends Shape {
             centerPoint.add(direction.copy().mult(speedForTurn));
             speedForTurn = 0;
         }
-    }
-
-
-    private void invertDirection() {
-        direction.x *= -1;
-        direction.y *= -1;
+        System.out.println(speedForTurn);
     }
 
 
@@ -149,11 +165,15 @@ public class Ball extends Shape {
         if (speed < SPEED_THRESHOLD) {
             speed = 0;
         }
+        if (speedForTurn < SPEED_THRESHOLD) {
+            speedForTurn = 0;
+        }
     }
 
     public void initBallForMoving() {
         speedForTurn = speed;
         alreadyManagedCollisionWith = new ArrayList<Ball>();
+        collisionTrajectoriesForTurn = new ArrayList<PVector>();
     }
 
     public void initBallForMoving(float speed, PVector direction) {

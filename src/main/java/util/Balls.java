@@ -19,6 +19,9 @@ public class Balls {
     private final TableTab tab;
 
     private final Ball whiteBall;
+    private final Ball yellowBall;
+   /* private final Ball redBall;
+    private final Ball yellowBall2;*/
 
     private final List<Ball> balls = new ArrayList<Ball>();
 
@@ -29,8 +32,14 @@ public class Balls {
         this.tab = table.getTableTab();
 
         whiteBall = new Ball(game, tab, 255, 255, 255);
+        yellowBall = new Ball(game, tab, 247, 202, 24);
+      /*  redBall = new Ball(game, tab, 255, 0, 0);
+        yellowBall2 = new Ball(game, tab, 244, 208, 63);*/
 
         balls.add(whiteBall);
+        balls.add(yellowBall);
+        /*balls.add(redBall);
+        balls.add(yellowBall2);*/
     }
 
     public void moveBalls() {
@@ -40,6 +49,9 @@ public class Balls {
         while (anyBallStillMovingInTurn()) {
             for (Ball ball : balls) {
                 ball.checkCollisions(balls);
+            }
+            for (Ball ball : balls) {
+                ball.calculateNewTrajectoryBasedOnCollisions();
             }
             for (Ball ball : balls) {
                 ball.move();
@@ -70,11 +82,31 @@ public class Balls {
 
     public void placeBalls() {
         initializeWhiteBall();
+        initializeYellowBall();
+      /*  initializeRedBall();
+        initializeYellowBall2();*/
+    }
+
+   /* private void initializeYellowBall2() {
+        PVector redBallCenterPoint = redBall.getCenterPoint().copy();
+        PVector initialPoint = new PVector(redBallCenterPoint.x + BALL_RADIUS * 2, redBallCenterPoint.y, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        yellowBall2.init(initialPoint);
+    }
+
+    private void initializeRedBall() {
+        PVector yellowCenterPoint = yellowBall.getCenterPoint().copy();
+        PVector initialPoint = new PVector(yellowCenterPoint.x - BALL_RADIUS, yellowCenterPoint.y - 2 * BALL_RADIUS - 1, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        redBall.init(initialPoint);
+    }*/
+
+    private void initializeYellowBall() {
+        PVector initialPoint = new PVector(TABLE_HEIGHT / 2, TABLE_WIDTH / 4, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        yellowBall.init(initialPoint);
     }
 
 
     private void initializeWhiteBall() {
-        PVector initialPoint = new PVector(TABLE_HEIGHT / 2, TABLE_WIDTH / 2, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
+        PVector initialPoint = new PVector(TABLE_HEIGHT / 2, TABLE_WIDTH - TABLE_WIDTH / 4, tab.getUpperLeftCoordinate().z + BALL_RADIUS);
         whiteBall.init(initialPoint);
     }
 
