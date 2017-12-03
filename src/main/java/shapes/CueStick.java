@@ -3,6 +3,7 @@ package shapes;
 import main.Game;
 import processing.core.PShape;
 import processing.core.PVector;
+import util.Timer;
 
 import static constants.TableConstants.CUE_STICK_BUMBER_RADIUS;
 import static constants.TableConstants.CUE_STICK_LENGTH;
@@ -23,6 +24,8 @@ public class CueStick extends Shape {
     private float distanceFromBallInMovement = 0;
     private float backWardMovementDistance;
     private boolean backWardMovementDone;
+    private boolean move;
+    private Timer timer;
 
     public CueStick(Game game, Ball whiteBall) {
         super(game);
@@ -33,13 +36,14 @@ public class CueStick extends Shape {
         isCueStickStarted();
 
         if (!inMovement && game.keyPressed) {
+            timer.resetTimer();
             rotateCueStickByKeyPressed();
         }
 
         game.pushMatrix();
         PVector centerPoint = whiteBall.getCenterPoint();
         game.translate(centerPoint.x, centerPoint.y, centerPoint.z);
-        game.rotateX(HALF_PI);
+        game.rotateX(HALF_PI + QUARTER_PI / 8);
 
         game.rotateY(angleToBall);
 
@@ -69,8 +73,9 @@ public class CueStick extends Shape {
     }
 
     private void isCueStickStarted() {
-        if (game.keyPressed && game.key == CODED && game.keyCode == CONTROL && !inMovement) {
+        if ((game.keyPressed && game.key == CODED && game.keyCode == CONTROL) || move && !inMovement) {
             inMovement = true;
+            move = false;
             backWardMovementDone = false;
             distanceFromBallInMovement = distanceFromBall;
             backWardMovementDistance = distanceFromBall + distanceFromBall / 4;
@@ -104,7 +109,7 @@ public class CueStick extends Shape {
         float angle = (float) (angleToBall - TWO_PI * Math.floor((angleToBall + Math.PI) / TWO_PI));
         angle -= HALF_PI;
         PVector direction = new PVector(cos(angle), sin(angle));
-        whiteBall.initBallForMoving(getSpeedFromDistance(), direction);
+        whiteBall.initBallForMoving(direction.mult(getSpeedFromDistance()));
     }
 
     private float getSpeedFromDistance() {
@@ -156,8 +161,11 @@ public class CueStick extends Shape {
         game.shape(cueStickBody);
     }
 
+    public void move() {
+        move = true;
+    }
 
-    public void init() {
-
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 }

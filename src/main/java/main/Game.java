@@ -18,7 +18,7 @@ public class Game extends PApplet {
     }
 
     public void draw() {
-        background(0);
+        background(137,207,240);
         table.draw();
 
     }

@@ -2,18 +2,14 @@ package shapes.table;
 
 
 import main.Game;
-import processing.core.PVector;
-import shapes.Ball;
 import shapes.CueStick;
 import shapes.Shape;
 import util.Balls;
-
-import static constants.TableConstants.*;
+import util.Timer;
 
 
 public class Table extends Shape {
 
-    float i = 0;
 
     boolean gameStarted = false;
 
@@ -28,7 +24,7 @@ public class Table extends Shape {
 
 
     private final Balls balls;
-
+    private final Timer timer;
 
     public Table(Game game) {
         super(game);
@@ -42,13 +38,18 @@ public class Table extends Shape {
         balls = new Balls(game, this);
 
         cueStick = new CueStick(game, balls.getWhiteBall());
+
+
+        timer = new Timer(game, cueStick);
+
     }
 
     public void draw() {
-        i += 0.025;
+        if (gameStarted && !balls.anyBallStillMoving()) {
+            timer.showTimer();
+        }
         game.pushMatrix();
         game.translate(game.width / 5, game.height / 5);
-        //game.rotateY(i);
         tableTab.draw();
         leftEdge.draw();
         rightEdge.draw();
@@ -66,14 +67,15 @@ public class Table extends Shape {
         } else {
             gameStarted = true;
             balls.placeBalls();
-            cueStick.init();
         }
 
         balls.drawBalls();
+
         game.popMatrix();
 
 
     }
+
 
     public TableTab getTableTab() {
         return tableTab;
