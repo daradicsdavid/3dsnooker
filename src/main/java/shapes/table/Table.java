@@ -45,7 +45,7 @@ public class Table extends Shape {
     }
 
     public void draw() {
-        if (gameStarted && !balls.anyBallStillMoving()) {
+        if (gameStarted && !balls.anyBallStillMoving() && !cueStick.isInMovement()) {
             timer.showTimer();
         }
         game.pushMatrix();

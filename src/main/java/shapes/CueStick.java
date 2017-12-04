@@ -55,7 +55,6 @@ public class CueStick extends Shape {
 
 
         game.popMatrix();
-
     }
 
     private void calculateNextDistanceFromBall() {
@@ -163,6 +162,10 @@ public class CueStick extends Shape {
 
     public void move() {
         move = true;
+    }
+
+    public boolean isInMovement() {
+        return inMovement;
     }
 
     public void setTimer(Timer timer) {
