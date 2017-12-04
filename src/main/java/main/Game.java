@@ -1,6 +1,7 @@
 package main;
 
 import processing.core.PApplet;
+import processing.event.MouseEvent;
 import shapes.table.Table;
 
 public class Game extends PApplet {
@@ -19,6 +20,10 @@ public class Game extends PApplet {
         background(137,207,240);
         table.draw();
 
+    }
+
+    public void mouseWheel(MouseEvent event) {
+        table.zoomCamera(event);
     }
 
 }

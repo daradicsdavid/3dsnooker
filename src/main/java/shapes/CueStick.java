@@ -43,18 +43,28 @@ public class CueStick extends Shape {
         game.pushMatrix();
         PVector centerPoint = whiteBall.getCenterPoint();
         game.translate(centerPoint.x, centerPoint.y, centerPoint.z);
-        game.rotateX(HALF_PI + QUARTER_PI / 8);
-
+        double angleInDegrees = getAngleInDegrees();
+        if (angleInDegrees < 90 && angleInDegrees > -90) {
+            game.rotateX(HALF_PI + QUARTER_PI / 8);
+        } else {
+            game.rotateX(-3*HALF_PI - QUARTER_PI / 8);
+        }
         game.rotateY(angleToBall);
 
         if (inMovement) {
             calculateNextDistanceFromBall();
         }
-
+        System.out.println(getAngleInDegrees());
         drawCueStick();
-
-
         game.popMatrix();
+    }
+
+    private double getAngleInDegrees() {
+        return Math.toDegrees(normalizeAngle(new Double(angleToBall)));
+    }
+
+    private double normalizeAngle(double angle) {
+        return (angle - TWO_PI * Math.floor((angle + Math.PI) / TWO_PI));
     }
 
     private void calculateNextDistanceFromBall() {

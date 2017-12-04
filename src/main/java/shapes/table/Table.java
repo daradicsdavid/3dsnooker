@@ -2,10 +2,15 @@ package shapes.table;
 
 
 import main.Game;
+import processing.core.PConstants;
+import processing.event.MouseEvent;
 import shapes.CueStick;
 import shapes.Shape;
 import util.Balls;
 import util.Timer;
+
+import static constants.TableConstants.TABLE_HEIGHT;
+import static constants.TableConstants.TABLE_WIDTH;
 
 
 public class Table extends Shape {
@@ -25,6 +30,7 @@ public class Table extends Shape {
 
     private final Balls balls;
     private final Timer timer;
+    private float cameraDistance;
 
     public Table(Game game) {
         super(game);
@@ -41,7 +47,7 @@ public class Table extends Shape {
 
 
         timer = new Timer(game, cueStick);
-
+        cameraDistance = (game.height / 2) / game.tan((game.PI * 30 / 180));
     }
 
     public void draw() {
@@ -49,7 +55,9 @@ public class Table extends Shape {
             timer.showTimer();
         }
         game.pushMatrix();
-        game.translate(game.width / 5, game.height / 5);
+        setCamera();
+        game.translate(game.width / 2 - TABLE_HEIGHT / 2, game.height / 2 - TABLE_WIDTH / 2);
+        game.rotateX(PConstants.QUARTER_PI);
         tableTab.draw();
         leftEdge.draw();
         rightEdge.draw();
@@ -76,8 +84,16 @@ public class Table extends Shape {
 
     }
 
+    private void setCamera() {
+        game.camera(game.width / 2, game.height / 2, cameraDistance, game.width / 2, game.height / 2, 0, 0, 1, 0);
+    }
+
 
     public TableTab getTableTab() {
         return tableTab;
+    }
+
+    public void zoomCamera(MouseEvent event) {
+        cameraDistance += event.getCount()*50;
     }
 }

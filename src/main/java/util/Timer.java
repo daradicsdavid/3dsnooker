@@ -22,7 +22,8 @@ public class Timer {
 
     public void showTimer() {
         if (interval != 11) {
-            game.text(interval, 10, 10);
+            game.textSize(32);
+            game.text(interval, 40, 40);
         }
         if (game.millis() - time >= wait) {
             interval--;
