@@ -4,6 +4,12 @@ Grafika beadandó
 
 Daradics Dávid János E8NHG1
 
+## Indítás
+
+```
+mvn clean install exec:java
+```
+
 ## Irányítás
 
 Bal, jobb - Dákó mozgatása a fehér golyó körül
