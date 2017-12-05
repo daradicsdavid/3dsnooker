@@ -54,7 +54,6 @@ public class CueStick extends Shape {
         if (inMovement) {
             calculateNextDistanceFromBall();
         }
-        System.out.println(getAngleInDegrees());
         drawCueStick();
         game.popMatrix();
     }
