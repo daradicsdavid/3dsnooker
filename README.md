@@ -1,8 +1,4 @@
-# 3D Snooker
-
-Grafika beadandó
-
-Daradics Dávid János E8NHG1
+# Dákó szimulátor 2017
 
 ## Indítás
 
